@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caderno de Encargos - Portal CAIVVI</title>
+    <title>CAIVVI - Centro Integrado de Apoio a Vítima de Violência de Viana</title>
+    <meta name="description" content="Centro Integrado de Apoio a Vítima de Violência de Viana. Acolher, Proteger, Apoiar, Resgatar. Por uma sociedade mais segura, justa e sem violência.">
     <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #1a1a1a;
@@ -12,752 +15,572 @@
             --accent: #d4af37;
             --accent-dark: #b8941f;
             --danger: #c8102e;
-            --bg-light: #f9f9f9;
+            --danger-dark: #a00d24;
+            --bg-color: #f9f8f5;
             --text-dark: #333333;
             --white: #ffffff;
-            --gray-border: #e0e0e0;
+            --transition: all 0.3s ease;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { background-color: #f0f0f0; color: var(--text-dark); line-height: 1.7; }
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 
-        .document-container { max-width: 210mm; margin: 20px auto; background: var(--white); box-shadow: 0 0 30px rgba(0,0,0,0.15); border-radius: 4px; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
 
-        .cover-page {
-            background: linear-gradient(135deg, #1a1a1a 0%, #000 50%, #2a0808 100%);
+        h1, h2, h3, h4, h5, h6, .nav-links a, .btn { font-family: 'Montserrat', sans-serif; }
+
+        .top-bar {
+            background-color: var(--primary);
             color: var(--white);
-            padding: 80px 50px;
+            padding: 8px 5%;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .top-bar a { color: var(--accent); text-decoration: none; font-weight: bold; transition: var(--transition); }
+        .top-bar a:hover { opacity: 0.8; text-decoration: underline; }
+
+        header {
+            background-color: var(--white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5%;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo-area:hover { transform: scale(1.02); }
+
+        .logo-area img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-text h1 { font-size: 1.15rem; color: var(--primary); line-height: 1.1; letter-spacing: 1px; }
+        .logo-text span { font-size: 0.7rem; color: var(--accent-dark); font-weight: bold; letter-spacing: 0.5px; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            padding-bottom: 4px;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--danger);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active-link::after { width: 100%; }
+
+        .nav-links a:hover,
+        .nav-links a.active-link { color: var(--danger); }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 16, 46, 0.5); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 12px rgba(200, 16, 46, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 16, 46, 0); }
+        }
+
+        .btn-emergency {
+            background-color: var(--danger);
+            color: var(--white) !important;
+            padding: 9px 16px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulseGlow 2.5s infinite;
+            transition: var(--transition);
+            font-weight: 700;
+        }
+
+        .btn-emergency::after { display: none !important; }
+        .btn-emergency:hover { background-color: var(--danger-dark); transform: translateY(-2px); }
+
+        .btn-admin {
+            background-color: rgba(212, 175, 55, 0.12);
+            color: var(--accent-dark) !important;
+            border: 1px solid var(--accent);
+            padding: 9px 14px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .btn-admin::after { display: none !important; }
+        .btn-admin:hover { background-color: var(--accent); color: var(--primary) !important; transform: translateY(-2px); }
+
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--primary); cursor: pointer; transition: var(--transition); }
+        .menu-toggle:hover { color: var(--danger); }
+
+        .hero {
+            background: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.92)), url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: var(--white);
             text-align: center;
-            min-height: 297mm;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border-radius: 4px 4px 0 0;
-        }
-        .cover-page .logo { width: 160px; height: 160px; border-radius: 50%; border: 4px solid var(--accent); margin-bottom: 30px; object-fit: cover; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .cover-page .institution-name { font-size: 16px; color: #ddd; margin-bottom: 10px; letter-spacing: 1px; max-width: 600px; }
-        .cover-page .document-title { font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 15px; letter-spacing: 2px; }
-        .cover-page .document-subtitle { font-size: 22px; color: #eee; margin-bottom: 40px; }
-        .cover-page .slogan-cover { font-size: 14px; color: var(--accent); letter-spacing: 4px; margin-bottom: 20px; font-weight: 600; }
-        .cover-page .divider { width: 100px; height: 3px; background: var(--accent); margin: 20px auto; }
-        .cover-page .document-info { margin-top: 50px; font-size: 14px; color: #bbb; }
-        .cover-page .document-info p { margin: 5px 0; }
-
-        .toc { padding: 40px 60px; background: #fafafa; border-bottom: 1px solid #e0e0e0; }
-        .toc h2 { color: var(--primary); font-size: 20px; margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
-        .toc-list { list-style: none; padding: 0; columns: 2; column-gap: 40px; }
-        .toc-list li { padding: 8px 0; border-bottom: 1px dotted #ccc; font-size: 13px; break-inside: avoid; }
-        .toc-list li .toc-number { font-weight: 700; color: var(--danger); margin-right: 8px; }
-
-        .content { padding: 50px 60px; }
-
-        .section { margin-bottom: 40px; page-break-inside: avoid; }
-        .section-number { display: inline-block; background: var(--primary); color: var(--white); padding: 5px 15px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
-        .section-title { font-size: 24px; color: var(--primary); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid var(--accent); }
-        .subsection-title { font-size: 18px; color: var(--primary-soft); margin: 25px 0 15px 0; padding-left: 10px; border-left: 4px solid var(--danger); }
-        .subsubsection-title { font-size: 15px; color: var(--text-dark); margin: 20px 0 10px 0; font-weight: 600; }
-
-        p { margin-bottom: 15px; font-size: 14px; text-align: justify; }
-
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-        table th { background-color: var(--primary); color: var(--white); padding: 12px 15px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        table td { padding: 10px 15px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
-        table tr:nth-child(even) td { background-color: #fafafa; }
-        table tr:hover td { background-color: #fdfaf0; }
-        table.total-row td { background-color: #fdf5e0 !important; font-weight: 700; color: var(--primary); border-top: 2px solid var(--accent); }
-
-        .highlight-box { background: #fdfaf0; border-left: 4px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
-        .info-box { background: #e8f4fd; border-left: 4px solid #2196F3; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
-        .warning-box { background: #fff9e6; border-left: 4px solid #ffc107; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
-        .success-box { background: #e8f5e9; border-left: 4px solid #28a745; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
-        .danger-box { background: #fde8eb; border-left: 4px solid var(--danger); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
-
-        ul, ol { margin: 10px 0 20px 25px; font-size: 14px; }
-        li { margin-bottom: 8px; }
-
-        ul.checklist { list-style: none; padding-left: 0; }
-        ul.checklist li { padding-left: 30px; position: relative; }
-        ul.checklist li::before { content: "✓"; position: absolute; left: 0; color: #28a745; font-weight: bold; font-size: 16px; }
-
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin: 2px; }
-        .badge-success { background: #d4edda; color: #155724; }
-        .badge-warning { background: #fff3cd; color: #856404; }
-        .badge-info { background: #d1ecf1; color: #0c5460; }
-
-        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--danger); }
-
-        .file-structure { background: #1a1a1a; color: #ddd; padding: 25px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.6; overflow-x: auto; margin: 20px 0; }
-        .file-structure .folder { color: var(--accent); font-weight: bold; }
-        .file-structure .file { color: #aed581; }
-        .file-structure .comment { color: #78909c; }
-
-        .footer { background: var(--primary); color: var(--white); padding: 30px 60px; text-align: center; border-radius: 0 0 4px 4px; border-top: 4px solid var(--accent); }
-        .footer p { margin: 5px 0; font-size: 12px; color: #ccc; text-align: center; }
-        .footer .mission { color: var(--accent); font-size: 11px; letter-spacing: 2px; margin-top: 10px; }
-
-        .signature-section { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px; }
-        .signature-block { text-align: center; }
-        .signature-line { border-bottom: 1px solid #333; margin: 60px 20px 10px 20px; }
-        .signature-label { font-size: 13px; font-weight: 600; }
-
-        .page-break { page-break-after: always; border-bottom: 2px dashed #ccc; margin: 30px 0; }
-
-        @media print {
-            body { background: white; margin: 0; padding: 0; }
-            .document-container { max-width: 100%; margin: 0; box-shadow: none; border-radius: 0; }
-            .cover-page { min-height: 100vh; border-radius: 0; }
-            .section { page-break-inside: avoid; }
-            table { page-break-inside: auto; }
-            table tr { page-break-inside: avoid; }
-            .file-structure { background: #f5f5f5; color: #333; }
-            .file-structure .folder { color: var(--primary); }
-            .file-structure .file { color: #333; }
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        @media (max-width: 768px) {
-            .content { padding: 30px 25px; }
-            .toc { padding: 30px 25px; }
-            .toc-list { columns: 1; }
-            .cover-page { padding: 40px 25px; min-height: auto; }
-            .cover-page .document-title { font-size: 24px; }
-            .signature-section { grid-template-columns: 1fr; gap: 30px; }
+        .hero h2 { font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); letter-spacing: 1px; }
+        .hero .slogan { font-size: 1.05rem; letter-spacing: 3px; color: var(--white); font-weight: 600; margin-bottom: 15px; text-transform: uppercase; }
+        .hero .mission { font-size: 1.15rem; max-width: 700px; margin: 0 auto 30px auto; font-style: italic; color: #f0e6c8; }
+
+        .hero-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+        .btn { padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; text-decoration: none; border: none; transition: var(--transition); display: inline-block; }
+        .btn-primary { background-color: var(--accent); color: var(--primary); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35); }
+        .btn-primary:hover { background-color: var(--accent-dark); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--white); color: var(--white); }
+        .btn-outline:hover { background-color: var(--white); color: var(--primary); }
+        .btn:hover { transform: translateY(-3px); opacity: 0.95; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+
+        section { padding: 80px 5%; transition: var(--transition); }
+        section:nth-child(even) { background-color: var(--white); }
+
+        .section-title { text-align: center; margin-bottom: 45px; }
+        .section-title h2 { font-size: 1.9rem; color: var(--primary); position: relative; display: inline-block; padding-bottom: 10px; }
+        .section-title h2::after { content: ''; position: absolute; width: 50%; height: 3px; background-color: var(--accent); bottom: 0; left: 25%; border-radius: 2px; }
+
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; }
+
+        .card {
+            background: var(--white);
+            padding: 30px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            text-align: center;
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+        }
+
+        section:nth-child(even) .card { background-color: var(--bg-color); }
+
+        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); border-top-color: var(--danger); }
+        .card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 18px; transition: var(--transition); }
+        .card:hover i { transform: scale(1.1); color: var(--danger); }
+        .card h3 { margin-bottom: 12px; color: var(--primary); font-size: 1.15rem; }
+
+        .violence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+
+        .violence-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: var(--white);
+            padding: 22px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .violence-item:hover { transform: translateX(5px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); background-color: #fdfaf0; border-left-color: var(--danger); }
+        .violence-item i { font-size: 1.8rem; color: var(--primary); margin-top: 2px; transition: var(--transition); }
+        .violence-item:hover i { color: var(--danger); }
+        .violence-item h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 6px; }
+        .violence-item p { font-size: 0.92rem; color: #555; }
+
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+
+        .contact-info {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-left: 4px solid var(--primary);
+        }
+
+        .contact-info h3 { color: var(--primary); margin-bottom: 20px; font-size: 1.3rem; }
+        .contact-info p { margin-bottom: 15px; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; word-break: break-word; }
+        .contact-info i { color: var(--danger); font-size: 1.2rem; min-width: 24px; }
+
+        #denuncia { background: var(--white); padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border-top: 4px solid var(--danger); }
+        #denuncia h3 { color: var(--primary); margin-bottom: 20px; font-size: 1.3rem; }
+
+        form input, form textarea, form select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: #fdfdfd;
+        }
+
+        form input:focus, form textarea:focus, form select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+            background-color: var(--white);
+        }
+
+        form button {
+            background-color: var(--primary);
+            color: var(--white);
+            width: 100%;
+            font-size: 1rem;
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        form button:hover { background-color: var(--danger); transform: translateY(-2px); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+            border: 2px solid var(--accent);
+        }
+
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background-color: var(--accent); color: var(--primary); transform: translateY(-4px); }
+
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 4px solid var(--accent);
+        }
+
+        footer p { color: var(--accent); margin-top: 10px; font-size: 0.9rem; }
+        footer .footer-mission { color: #ccc; font-size: 0.8rem; letter-spacing: 1px; margin-top: 15px; }
+
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px 7%;
+                box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+                display: none;
+                border-top: 1px solid #eee;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { width: 100%; padding: 10px 0; border-bottom: 1px solid #f2f2f2; }
+            .nav-links li:last-child { border-bottom: none; }
+            .contact-container { grid-template-columns: 1fr; gap: 30px; }
+            .hero h2 { font-size: 1.6rem; }
+            .hero p { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="document-container">
-
-        <div class="cover-page">
-            <img src="logo-caivvi.jpg" alt="Logo CAIVVI" class="logo">
-            <p class="institution-name">CENTRO INTEGRADO DE APOIO A VÍTIMA DE VIOLÊNCIA DE VIANA</p>
-            <p class="slogan-cover">ACOLHER • PROTEGER • APOIAR • RESGATAR</p>
-            <h1 class="document-title">CADERNO DE ENCARGOS</h1>
-            <p class="document-subtitle">Portal Web CAIVVI</p>
-            <div class="divider"></div>
-            <div class="document-info">
-                <p><strong>Documento:</strong> CE-CAIVVI-2026-001</p>
-                <p><strong>Versão:</strong> 1.0</p>
-                <p><strong>Data:</strong> 03 de Setembro de 2026</p>
-                <p><strong>Classificação:</strong> Institucional</p>
-                <p style="margin-top: 20px; font-style: italic; color: var(--accent);">"Por uma sociedade mais segura, justa e sem violência"</p>
-            </div>
-        </div>
-
-        <div class="toc">
-            <h2>Índice</h2>
-            <ul class="toc-list">
-                <li><span class="toc-number">1.</span> Introdução</li>
-                <li><span class="toc-number">2.</span> Requisitos Funcionais</li>
-                <li><span class="toc-number">3.</span> Requisitos Técnicos</li>
-                <li><span class="toc-number">4.</span> Design e Interface</li>
-                <li><span class="toc-number">5.</span> Estrutura de Ficheiros</li>
-                <li><span class="toc-number">6.</span> Funcionalidades Específicas</li>
-                <li><span class="toc-number">7.</span> Critérios de Aceitação</li>
-                <li><span class="toc-number">8.</span> Manutenção e Suporte</li>
-                <li><span class="toc-number">9.</span> Orçamento Detalhado</li>
-                <li><span class="toc-number">10.</span> Entregáveis</li>
-                <li><span class="toc-number">11.</span> Prazos</li>
-                <li><span class="toc-number">12.</span> Responsabilidades</li>
-                <li><span class="toc-number">13.</span> Garantia</li>
-                <li><span class="toc-number">14.</span> Termos e Condições</li>
-                <li><span class="toc-number">15.</span> Assinaturas</li>
-            </ul>
-        </div>
-
-        <div class="content">
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 1</span>
-                <h2 class="section-title">Introdução</h2>
-
-                <h3 class="subsection-title">1.1. Contexto Geral</h3>
-                <p>O <strong>CAIVVI</strong> (Centro Integrado de Apoio a Vítima de Violência de Viana) é uma instituição dedicada ao apoio, proteção e orientação de vítimas de violência no Município de Viana, Luanda, Angola.</p>
-
-                <h3 class="subsection-title">1.2. Objetivo do Projeto</h3>
-                <p>Desenvolvimento de um portal web completo que permita:</p>
-                <ul>
-                    <li>Divulgar os serviços do CAIVVI à comunidade de Viana</li>
-                    <li>Facilitar denúncias confidenciais</li>
-                    <li>Gerir internamente os casos de atendimento</li>
-                    <li>Monitorizar estatísticas e relatórios</li>
-                    <li>Proporcionar acesso seguro à informação</li>
-                </ul>
-
-                <h3 class="subsection-title">1.3. Enquadramento Legal</h3>
-                <div class="highlight-box">
-                    <p><strong>Legislação Aplicável:</strong></p>
-                    <ul>
-                        <li><strong>Lei 25/11 de 14 de julho</strong> - Lei contra a Violência Doméstica</li>
-                        <li>Constituição da República de Angola</li>
-                        <li>Legislação sobre Proteção de Dados Pessoais</li>
-                        <li>Normas de Acessibilidade Web (WCAG 2.1)</li>
-                    </ul>
-                </div>
-
-                <h3 class="subsection-title">1.4. Missão e Lema</h3>
-                <div class="danger-box">
-                    <p><strong>Lema:</strong> Acolher • Proteger • Apoiar • Resgatar</p>
-                    <p><strong>Missão:</strong> "Por uma sociedade mais segura, justa e sem violência"</p>
-                </div>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 2</span>
-                <h2 class="section-title">Requisitos Funcionais</h2>
-
-                <h3 class="subsection-title">2.1. Portal Público</h3>
-
-                <h4 class="subsubsection-title">2.1.1. Página Inicial</h4>
-                <ul>
-                    <li><strong>Banner Hero</strong> com mensagem institucional e lema</li>
-                    <li><strong>Botão de Emergência</strong> visível e acessível</li>
-                    <li><strong>Links rápidos</strong> para serviços principais</li>
-                    <li><strong>Informações de contacto</strong> em destaque</li>
-                </ul>
-
-                <h4 class="subsubsection-title">2.1.2. Secções Obrigatórias</h4>
-                <table>
-                    <thead>
-                        <tr><th>Secção</th><th>Conteúdo</th><th>Funcionalidades</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Sobre</strong></td><td>Missão, visão, valores</td><td>Texto institucional</td></tr>
-                        <tr><td><strong>Tipologias</strong></td><td>6 tipos de violência</td><td>Cards informativos</td></tr>
-                        <tr><td><strong>Serviços</strong></td><td>4 serviços principais</td><td>Descrição detalhada</td></tr>
-                        <tr><td><strong>Contactos</strong></td><td>Endereço, telefone, email</td><td>Formulário de contacto</td></tr>
-                        <tr><td><strong>Denúncia</strong></td><td>Formulário confidencial</td><td>Envio seguro</td></tr>
-                    </tbody>
-                </table>
-
-                <h4 class="subsubsection-title">2.1.3. Formulário de Denúncia</h4>
-                <ul>
-                    <li><strong>Campos:</strong> Nome (opcional), Contacto (obrigatório), Tipo de ajuda (dropdown), Descrição (mín. 50 caracteres)</li>
-                    <li><strong>Validações:</strong> Campo de contacto obrigatório, mínimo de caracteres, proteção contra spam</li>
-                </ul>
-
-                <h4 class="subsubsection-title">2.1.4. Saída Rápida (Segurança da Vítima)</h4>
-                <ul>
-                    <li><strong>Atalho:</strong> Tecla ESC redireciona para google.com</li>
-                    <li><strong>Função:</strong> Proteção imediata em caso de risco</li>
-                </ul>
-
-                <h3 class="subsection-title">2.2. Painel Administrativo</h3>
-
-                <div class="info-box">
-                    <p><strong>Credenciais de Acesso Inicial:</strong></p>
-                    <ul>
-                        <li><strong>Utilizador:</strong> <code>admin_caivvi</code></li>
-                        <li><strong>Palavra-passe:</strong> <code>CaivVi2026</code></li>
-                    </ul>
-                    <p><em>Nota: A palavra-passe deve ser alterada no primeiro acesso.</em></p>
-                </div>
-
-                <h4 class="subsubsection-title">2.2.1. Categorias de Atendimento</h4>
-                <table>
-                    <thead>
-                        <tr><th>Categoria</th><th>Identificador</th><th>Descrição</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Psicológico</td><td><code>psicologico</code></td><td>Apoio emocional e mental</td></tr>
-                        <tr><td>Jurídico</td><td><code>juridico</code></td><td>Orientação e representação legal</td></tr>
-                        <tr><td>Familiar</td><td><code>familiar</code></td><td>Conflitos familiares</td></tr>
-                        <tr><td>Crianças</td><td><code>criancas</code></td><td>Proteção infantil</td></tr>
-                        <tr><td>Alimentos</td><td><code>alimentos</code></td><td>Pensão alimentícia</td></tr>
-                        <tr><td>Idosos</td><td><code>idosos</code></td><td>Abandono de idosos</td></tr>
-                        <tr><td>Comunidade</td><td><code>comunidade</code></td><td>Conflitos comunitários</td></tr>
-                    </tbody>
-                </table>
-
-                <h4 class="subsubsection-title">2.2.2. Estados dos Casos</h4>
-                <p>
-                    <span class="badge badge-warning">Em Acompanhamento</span>
-                    <span class="badge badge-info">Encaminhado</span>
-                    <span class="badge badge-success">Concluído</span>
-                </p>
-
-                <h4 class="subsubsection-title">2.2.3. Funcionalidades</h4>
-                <ul>
-                    <li><strong>Dashboard</strong> com métricas e gráficos interativos (Chart.js)</li>
-                    <li><strong>Filtros temporais:</strong> Diário, Semanal, Mensal, Trimestral, Semestral, Anual</li>
-                    <li><strong>CRUD completo</strong> de registos</li>
-                    <li><strong>Busca e filtragem</strong> por nome, contacto e estado</li>
-                    <li><strong>Exportação</strong> CSV e JSON</li>
-                </ul>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 3</span>
-                <h2 class="section-title">Requisitos Técnicos</h2>
-
-                <h3 class="subsection-title">3.1. Tecnologias Utilizadas</h3>
-                <table>
-                    <thead>
-                        <tr><th>Categoria</th><th>Tecnologia</th><th>Versão</th><th>Finalidade</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Frontend</td><td>HTML5</td><td>Latest</td><td>Estrutura do portal</td></tr>
-                        <tr><td>Frontend</td><td>CSS3</td><td>Latest</td><td>Estilização e layout</td></tr>
-                        <tr><td>Frontend</td><td>JavaScript</td><td>ES6+</td><td>Interatividade</td></tr>
-                        <tr><td>Gráficos</td><td>Chart.js</td><td>4.x</td><td>Visualização de dados</td></tr>
-                        <tr><td>Ícones</td><td>Font Awesome</td><td>6.x</td><td>Iconografia</td></tr>
-                        <tr><td>Fontes</td><td>Google Fonts</td><td>-</td><td>Tipografia (Montserrat, Lato)</td></tr>
-                        <tr><td>Armazenamento</td><td>localStorage</td><td>-</td><td>Persistência local (protótipo)</td></tr>
-                        <tr><td>Backend</td><td>PHP</td><td>8.x</td><td>Processamento (opcional, produção)</td></tr>
-                        <tr><td>Base de Dados</td><td>MySQL</td><td>8.x</td><td>Armazenamento (opcional, produção)</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">3.2. Compatibilidade</h3>
-                <table>
-                    <thead><tr><th>Navegador</th><th>Versão Mínima</th><th>Observações</th></tr></thead>
-                    <tbody>
-                        <tr><td>Google Chrome</td><td>90+</td><td>Compatibilidade total</td></tr>
-                        <tr><td>Mozilla Firefox</td><td>88+</td><td>Compatibilidade total</td></tr>
-                        <tr><td>Safari</td><td>14+</td><td>Compatibilidade total</td></tr>
-                        <tr><td>Microsoft Edge</td><td>90+</td><td>Compatibilidade total</td></tr>
-                        <tr><td>Opera</td><td>76+</td><td>Compatibilidade total</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">3.3. Segurança</h3>
-                <ul>
-                    <li><strong>HTTPS:</strong> Obrigatório (SSL/TLS)</li>
-                    <li><strong>Headers de segurança:</strong> X-Frame-Options, X-XSS-Protection</li>
-                    <li><strong>Sanitização:</strong> Validação de todos os inputs</li>
-                    <li><strong>Proteção XSS:</strong> Escape de caracteres especiais</li>
-                    <li><strong>Proteção CSRF:</strong> Tokens de validação</li>
-                    <li><strong>Rate Limiting:</strong> Limite de tentativas de login</li>
-                    <li><strong>Criptografia:</strong> Hash de senhas (bcrypt)</li>
-                    <li><strong>Saída rápida:</strong> Atalho ESC para site neutro</li>
-                </ul>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 4</span>
-                <h2 class="section-title">Design e Interface</h2>
-
-                <h3 class="subsection-title">4.1. Identidade Visual</h3>
-
-                <h4 class="subsubsection-title">Cores Institucionais (baseadas no logótipo)</h4>
-                <table>
-                    <thead><tr><th>Elemento</th><th>Cor</th><th>Código Hex</th><th>Uso</th></tr></thead>
-                    <tbody>
-                        <tr><td>Preto Principal</td><td style="background:#1a1a1a; color:white; text-align:center;">#1a1a1a</td><td><code>#1a1a1a</code></td><td>Elementos primários</td></tr>
-                        <tr><td>Preto Suave</td><td style="background:#2c2c2c; color:white; text-align:center;">#2c2c2c</td><td><code>#2c2c2c</code></td><td>Subtítulos</td></tr>
-                        <tr><td>Dourado</td><td style="background:#d4af37; text-align:center;">#d4af37</td><td><code>#d4af37</code></td><td>Acentuação</td></tr>
-                        <tr><td>Dourado Escuro</td><td style="background:#b8941f; text-align:center;">#b8941f</td><td><code>#b8941f</code></td><td>Hover dourado</td></tr>
-                        <tr><td>Vermelho</td><td style="background:#c8102e; color:white; text-align:center;">#c8102e</td><td><code>#c8102e</code></td><td>Emergência / alerta</td></tr>
-                        <tr><td>Branco</td><td style="background:#ffffff; text-align:center;">#ffffff</td><td><code>#ffffff</code></td><td>Fundo principal</td></tr>
-                        <tr><td>Cinza Claro</td><td style="background:#f9f8f5; text-align:center;">#f9f8f5</td><td><code>#f9f8f5</code></td><td>Fundo alternativo</td></tr>
-                    </tbody>
-                </table>
-
-                <h4 class="subsubsection-title">Tipografia</h4>
-                <table>
-                    <thead><tr><th>Uso</th><th>Fonte</th><th>Tamanho</th><th>Peso</th></tr></thead>
-                    <tbody>
-                        <tr><td>Títulos principais</td><td>Montserrat</td><td>24-32px</td><td>700</td></tr>
-                        <tr><td>Subtítulos</td><td>Montserrat</td><td>18-22px</td><td>600</td></tr>
-                        <tr><td>Corpo de texto</td><td>Lato</td><td>14-16px</td><td>400</td></tr>
-                        <tr><td>Legendas</td><td>Lato</td><td>12-13px</td><td>300</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">4.2. Acessibilidade</h3>
-                <ul class="checklist">
-                    <li>Contraste mínimo de 4.5:1</li>
-                    <li>Alt text em todas as imagens</li>
-                    <li>Navegação completa por teclado</li>
-                    <li>Compatível com leitores de tela</li>
-                    <li>Saída rápida (ESC) para segurança</li>
-                </ul>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 5</span>
-                <h2 class="section-title">Estrutura de Ficheiros</h2>
-
-                <div class="file-structure">
-<pre>
-caivvi-viana/
-│
-├── index.html                       <span class="comment"># Portal público</span>
-├── painel-do-gestor.html            <span class="comment"># Painel administrativo</span>
-├── caderno-de-encargos.html         <span class="comment"># Este documento</span>
-├── logo-caivvi.jpg                  <span class="comment"># Logótipo CAIVVI</span>
-├── favicon.png                      <span class="comment"># Favicon</span>
-└── README.md                        <span class="comment"># Documentação</span>
-</pre>
-                </div>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 6</span>
-                <h2 class="section-title">Funcionalidades Específicas</h2>
-
-                <h3 class="subsection-title">6.1. Portal Público</h3>
-                <table>
-                    <thead><tr><th>Secção</th><th>Conteúdo</th><th>Funcionalidades</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Hero</strong></td><td>Título, lema, missão, CTAs</td><td>Pedir apoio urgente</td></tr>
-                        <tr><td><strong>Sobre</strong></td><td>Missão, enquadramento legal</td><td>Texto institucional</td></tr>
-                        <tr><td><strong>Tipologias</strong></td><td>6 tipos de violência</td><td>Cards informativos</td></tr>
-                        <tr><td><strong>Serviços</strong></td><td>4 serviços principais</td><td>Descrição detalhada</td></tr>
-                        <tr><td><strong>Contactos</strong></td><td>Telefone, WhatsApp, email</td><td>Links diretos</td></tr>
-                        <tr><td><strong>Denúncia</strong></td><td>Formulário confidencial</td><td>Envio seguro</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">6.2. Painel Administrativo</h3>
-                <table>
-                    <thead><tr><th>Funcionalidade</th><th>Descrição</th><th>Operações</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Dashboard</strong></td><td>Métricas, gráficos, filtros</td><td>Visualização, filtragem</td></tr>
-                        <tr><td><strong>Gestão de Registos</strong></td><td>CRUD completo</td><td>Criar, ler, atualizar, apagar</td></tr>
-                        <tr><td><strong>Exportação</strong></td><td>CSV, JSON</td><td>Download</td></tr>
-                        <tr><td><strong>Busca</strong></td><td>Pesquisa textual</td><td>Buscar, filtrar</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 7</span>
-                <h2 class="section-title">Critérios de Aceitação</h2>
-
-                <h3 class="subsection-title">7.1. Portal Público</h3>
-                <ul class="checklist">
-                    <li>Todas as secções visíveis e funcionais</li>
-                    <li>Formulário de denúncia funcional</li>
-                    <li>Botão de emergência operacional</li>
-                    <li>Links de contacto funcionais</li>
-                    <li>Design responsivo em todos os dispositivos</li>
-                    <li>Acessibilidade implementada (WCAG 2.1)</li>
-                    <li>Saída rápida via tecla ESC</li>
-                </ul>
-
-                <h3 class="subsection-title">7.2. Painel Administrativo</h3>
-                <ul class="checklist">
-                    <li>Login funcional</li>
-                    <li>CRUD completo de registos</li>
-                    <li>Dashboard com métricas corretas</li>
-                    <li>Filtros por período funcionais</li>
-                    <li>Gráficos interativos (Chart.js)</li>
-                    <li>Exportação em CSV e JSON</li>
-                    <li>Busca e filtragem operacionais</li>
-                </ul>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 8</span>
-                <h2 class="section-title">Manutenção e Suporte</h2>
-
-                <h3 class="subsection-title">8.1. Atualizações</h3>
-                <table>
-                    <thead><tr><th>Tipo</th><th>Frequência</th><th>Responsável</th></tr></thead>
-                    <tbody>
-                        <tr><td>Conteúdo</td><td>Mensal</td><td>Equipa CAIVVI</td></tr>
-                        <tr><td>Segurança</td><td>Imediata</td><td>Desenvolvedor</td></tr>
-                        <tr><td>Funcionalidades</td><td>Trimestral</td><td>Desenvolvedor</td></tr>
-                        <tr><td>Design</td><td>Anual</td><td>Designer</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">8.2. Backup</h3>
-                <ul>
-                    <li><strong>Frequência:</strong> Diária (automática)</li>
-                    <li><strong>Tipo:</strong> Incremental</li>
-                    <li><strong>Localização:</strong> Offsite (cloud)</li>
-                    <li><strong>Retenção:</strong> 30 dias</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 9</span>
-                <h2 class="section-title">Orçamento Detalhado</h2>
-
-                <div class="info-box">
-                    <p><strong>Taxa de Câmbio de Referência:</strong></p>
-                    <p style="font-size: 18px;"><strong>1 USD = 850 Kwanza (AOA)</strong></p>
-                    <p><em>Data de referência: Setembro 2026</em></p>
-                </div>
-
-                <h3 class="subsection-title">9.1. Desenvolvimento do Portal Público</h3>
-                <table>
-                    <thead><tr><th>Item</th><th>Descrição</th><th>Horas</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Design UI/UX</td><td>Layout, cores, protótipos</td><td>40h</td><td>$800</td><td>680.000 Kz</td></tr>
-                        <tr><td>Frontend</td><td>HTML, CSS, JavaScript</td><td>60h</td><td>$1.200</td><td>1.020.000 Kz</td></tr>
-                        <tr><td>Responsividade</td><td>Mobile/tablet</td><td>20h</td><td>$400</td><td>340.000 Kz</td></tr>
-                        <tr><td>Acessibilidade</td><td>WCAG 2.1</td><td>15h</td><td>$300</td><td>255.000 Kz</td></tr>
-                        <tr><td>SEO</td><td>Meta tags, sitemap</td><td>10h</td><td>$200</td><td>170.000 Kz</td></tr>
-                        <tr><td>Saída Rápida</td><td>Botão ESC segurança</td><td>5h</td><td>$100</td><td>85.000 Kz</td></tr>
-                        <tr class="total-row"><td colspan="2"><strong>Subtotal</strong></td><td><strong>150h</strong></td><td><strong>$3.000</strong></td><td><strong>2.550.000 Kz</strong></td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">9.2. Painel Administrativo</h3>
-                <table>
-                    <thead><tr><th>Item</th><th>Descrição</th><th>Horas</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Autenticação</td><td>Login, sessão</td><td>20h</td><td>$400</td><td>340.000 Kz</td></tr>
-                        <tr><td>Dashboard</td><td>Métricas, Chart.js</td><td>30h</td><td>$600</td><td>510.000 Kz</td></tr>
-                        <tr><td>CRUD</td><td>Criar, ler, atualizar, apagar</td><td>30h</td><td>$600</td><td>510.000 Kz</td></tr>
-                        <tr><td>Exportação</td><td>CSV, JSON</td><td>15h</td><td>$300</td><td>255.000 Kz</td></tr>
-                        <tr><td>Busca/Filtros</td><td>Pesquisa, ordenação</td><td>15h</td><td>$300</td><td>255.000 Kz</td></tr>
-                        <tr class="total-row"><td colspan="2"><strong>Subtotal</strong></td><td><strong>110h</strong></td><td><strong>$2.200</strong></td><td><strong>1.870.000 Kz</strong></td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">9.3. Testes e Qualidade</h3>
-                <table>
-                    <thead><tr><th>Item</th><th>Descrição</th><th>Horas</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Testes Funcionais</td><td>Todas as funcionalidades</td><td>20h</td><td>$400</td><td>340.000 Kz</td></tr>
-                        <tr><td>Testes Responsivos</td><td>Desktop, tablet, mobile</td><td>10h</td><td>$200</td><td>170.000 Kz</td></tr>
-                        <tr><td>Testes Segurança</td><td>XSS, CSRF</td><td>10h</td><td>$200</td><td>170.000 Kz</td></tr>
-                        <tr><td>Correções</td><td>Bugs e ajustes</td><td>15h</td><td>$300</td><td>255.000 Kz</td></tr>
-                        <tr class="total-row"><td colspan="2"><strong>Subtotal</strong></td><td><strong>55h</strong></td><td><strong>$1.100</strong></td><td><strong>935.000 Kz</strong></td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">9.4. Documentação e Deploy</h3>
-                <table>
-                    <thead><tr><th>Item</th><th>Descrição</th><th>Horas</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Documentação</td><td>Manual, guia técnico</td><td>15h</td><td>$300</td><td>255.000 Kz</td></tr>
-                        <tr><td>Deploy</td><td>GitHub Pages/Netlify</td><td>5h</td><td>$100</td><td>85.000 Kz</td></tr>
-                        <tr><td>Configuração</td><td>Domínio, SSL, SEO</td><td>10h</td><td>$200</td><td>170.000 Kz</td></tr>
-                        <tr><td>Treinamento</td><td>Uso do painel</td><td>5h</td><td>$100</td><td>85.000 Kz</td></tr>
-                        <tr class="total-row"><td colspan="2"><strong>Subtotal</strong></td><td><strong>35h</strong></td><td><strong>$700</strong></td><td><strong>595.000 Kz</strong></td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">9.5. Resumo Geral</h3>
-                <table>
-                    <thead><tr><th>Fase</th><th>Horas</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Portal Público</td><td>150h</td><td>$3.000</td><td>2.550.000 Kz</td></tr>
-                        <tr><td>Painel Administrativo</td><td>110h</td><td>$2.200</td><td>1.870.000 Kz</td></tr>
-                        <tr><td>Testes e Qualidade</td><td>55h</td><td>$1.100</td><td>935.000 Kz</td></tr>
-                        <tr><td>Documentação e Deploy</td><td>35h</td><td>$700</td><td>595.000 Kz</td></tr>
-                        <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>350h</strong></td><td><strong>$7.000</strong></td><td><strong>5.950.000 Kz</strong></td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">9.6. Custos Recorrentes Mensais</h3>
-                <table>
-                    <thead><tr><th>Item</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Hospedagem (VPS/Cloud)</td><td>$15</td><td>12.750 Kz</td></tr>
-                        <tr><td>Domínio (.org.ao)</td><td>$5</td><td>4.250 Kz</td></tr>
-                        <tr><td>SSL (Let's Encrypt)</td><td>$0</td><td>0 Kz</td></tr>
-                        <tr><td>Backup (cloud)</td><td>$10</td><td>8.500 Kz</td></tr>
-                        <tr><td>Suporte Técnico (10h/mês)</td><td>$200</td><td>170.000 Kz</td></tr>
-                        <tr class="total-row"><td><strong>TOTAL MENSAL</strong></td><td><strong>$230</strong></td><td><strong>195.500 Kz</strong></td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">9.7. Investimento Total (Primeiro Ano)</h3>
-                <div class="success-box">
-                    <p><strong>Investimento Total no Primeiro Ano:</strong></p>
-                    <p style="font-size: 20px;"><strong>USD: $9.760</strong></p>
-                    <p style="font-size: 20px;"><strong>Kwanza: 8.296.000 Kz</strong></p>
-                    <p><em>Inclui desenvolvimento inicial + 12 meses de custos recorrentes</em></p>
-                </div>
-
-                <h3 class="subsection-title">9.8. Condições de Pagamento</h3>
-                <table>
-                    <thead><tr><th>Parcela</th><th>%</th><th>USD</th><th>AOA</th><th>Momento</th></tr></thead>
-                    <tbody>
-                        <tr><td>1ª Parcela</td><td>30%</td><td>$2.100</td><td>1.785.000 Kz</td><td>Na assinatura</td></tr>
-                        <tr><td>2ª Parcela</td><td>40%</td><td>$2.800</td><td>2.380.000 Kz</td><td>Entrega portal público</td></tr>
-                        <tr><td>3ª Parcela</td><td>30%</td><td>$2.100</td><td>1.785.000 Kz</td><td>Entrega final</td></tr>
-                        <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>100%</strong></td><td><strong>$7.000</strong></td><td><strong>5.950.000 Kz</strong></td><td></td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 10</span>
-                <h2 class="section-title">Entregáveis</h2>
-
-                <h3 class="subsection-title">10.1. Documentação</h3>
-                <ul class="checklist">
-                    <li>Código fonte completo (GitHub)</li>
-                    <li>Manual de utilizador (PDF)</li>
-                    <li>Guia de instalação e configuração</li>
-                    <li>Documentação técnica</li>
-                    <li>Caderno de encargos (este documento)</li>
-                </ul>
-
-                <h3 class="subsection-title">10.2. Ficheiros do Projeto</h3>
-                <table>
-                    <thead><tr><th>Ficheiro</th><th>Descrição</th></tr></thead>
-                    <tbody>
-                        <tr><td><code>index.html</code></td><td>Portal público principal</td></tr>
-                        <tr><td><code>painel-do-gestor.html</code></td><td>Painel administrativo</td></tr>
-                        <tr><td><code>caderno-de-encargos.html</code></td><td>Este documento</td></tr>
-                        <tr><td><code>logo-caivvi.jpg</code></td><td>Logótipo institucional</td></tr>
-                        <tr><td><code>favicon.png</code></td><td>Ícone do navegador</td></tr>
-                        <tr><td><code>README.md</code></td><td>Documentação do repositório</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 class="subsection-title">10.3. Credenciais</h3>
-                <div class="info-box">
-                    <p><strong>Portal Público:</strong> Acesso livre</p>
-                    <p><strong>Painel Administrativo:</strong></p>
-                    <p>Utilizador: <code>admin_caivvi</code></p>
-                    <p>Palavra-passe: <code>CaivVi2026</code></p>
-                </div>
-            </div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 11</span>
-                <h2 class="section-title">Prazos</h2>
-
-                <table>
-                    <thead><tr><th>Fase</th><th>Duração</th><th>Entregável</th><th>Data</th></tr></thead>
-                    <tbody>
-                        <tr><td>Análise de Requisitos</td><td>3 dias</td><td>Documento de requisitos</td><td>Dia 1-3</td></tr>
-                        <tr><td>Design UI/UX</td><td>5 dias</td><td>Mockups</td><td>Dia 4-8</td></tr>
-                        <tr><td>Desenvolvimento</td><td>10 dias</td><td>Código completo</td><td>Dia 9-18</td></tr>
-                        <tr><td>Testes</td><td>3 dias</td><td>Relatório de testes</td><td>Dia 19-21</td></tr>
-                        <tr><td>Deploy</td><td>1 dia</td><td>Portal em produção</td><td>Dia 22</td></tr>
-                        <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>22 dias úteis</strong></td><td><strong>Portal completo</strong></td><td></td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 12</span>
-                <h2 class="section-title">Responsabilidades</h2>
-
-                <h3 class="subsection-title">12.1. Cliente (CAIVVI)</h3>
-                <ul>
-                    <li>Fornecer conteúdo institucional</li>
-                    <li>Validar design e funcionalidades</li>
-                    <li>Fornecer dados de contacto atualizados</li>
-                    <li>Testar e aprovar cada entrega</li>
-                    <li>Efetuar pagamentos conforme cronograma</li>
-                </ul>
-
-                <h3 class="subsection-title">12.2. Desenvolvedor</h3>
-                <ul>
-                    <li>Desenvolver portal conforme especificações</li>
-                    <li>Implementar medidas de segurança</li>
-                    <li>Otimizar performance e SEO</li>
-                    <li>Documentar todo o código</li>
-                    <li>Fornecer suporte técnico</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 13</span>
-                <h2 class="section-title">Garantia</h2>
-
-                <div class="highlight-box">
-                    <p><strong>Duração:</strong> 90 dias após a entrega final</p>
-                    <p><strong>Inclui:</strong></p>
-                    <ul>
-                        <li>Correção de bugs e erros</li>
-                        <li>Suporte técnico por email</li>
-                        <li>Atualizações de segurança</li>
-                        <li>Ajustes de conteúdo</li>
-                    </ul>
-                </div>
-
-                <h3 class="subsection-title">Suporte Adicional (após garantia)</h3>
-                <table>
-                    <thead><tr><th>Pacote</th><th>Horas/Mês</th><th>USD</th><th>AOA</th></tr></thead>
-                    <tbody>
-                        <tr><td>Básico</td><td>5h</td><td>$100</td><td>85.000 Kz</td></tr>
-                        <tr><td>Standard</td><td>10h</td><td>$200</td><td>170.000 Kz</td></tr>
-                        <tr><td>Premium</td><td>20h</td><td>$350</td><td>297.500 Kz</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 14</span>
-                <h2 class="section-title">Termos e Condições</h2>
-
-                <ol>
-                    <li><strong>Propriedade Intelectual:</strong> O código fonte pertence integralmente ao CAIVVI após pagamento total.</li>
-                    <li><strong>Confidencialidade:</strong> Todas as informações e dados dos beneficiários são estritamente confidenciais.</li>
-                    <li><strong>Licença:</strong> Uso exclusivo institucional, não comercial.</li>
-                    <li><strong>Suporte:</strong> 90 dias de garantia incluídos.</li>
-                    <li><strong>Pagamento:</strong> Conforme parcelas definidas na Secção 9.</li>
-                    <li><strong>Moeda:</strong> Aceite USD ou AOA.</li>
-                    <li><strong>Reajuste:</strong> Preços fixos por 60 dias.</li>
-                    <li><strong>Rescisão:</strong> Aviso prévio de 30 dias.</li>
-                </ol>
-            </div>
-
-            <div class="page-break"></div>
-
-            <div class="section">
-                <span class="section-number">SECÇÃO 15</span>
-                <h2 class="section-title">Assinaturas</h2>
-
-                <p>Este documento representa o acordo formal entre as partes para o desenvolvimento do Portal CAIVVI.</p>
-
-                <div class="signature-section">
-                    <div class="signature-block">
-                        <h4 style="color: var(--primary);">Pelo CAIVVI</h4>
-                        <div class="signature-line"></div>
-                        <p class="signature-label">Nome Completo</p>
-                        <p style="font-size: 12px; color: #666;">Diretor(a) do CAIVVI</p>
-                        <br><br>
-                        <div class="signature-line"></div>
-                        <p class="signature-label">Data</p>
-                        <p style="font-size: 12px; color: #666;">___/___/2026</p>
-                        <br><br>
-                        <div class="signature-line"></div>
-                        <p class="signature-label">Assinatura e Carimbo</p>
-                    </div>
-
-                    <div class="signature-block">
-                        <h4 style="color: var(--primary);">Pelo Desenvolvedor</h4>
-                        <div class="signature-line"></div>
-                        <p class="signature-label">Nome Completo</p>
-                        <p style="font-size: 12px; color: #666;">Desenvolvedor Web</p>
-                        <br><br>
-                        <div class="signature-line"></div>
-                        <p class="signature-label">Data</p>
-                        <p style="font-size: 12px; color: #666;">___/___/2026</p>
-                        <br><br>
-                        <div class="signature-line"></div>
-                        <p class="signature-label">Assinatura</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="footer">
-            <p><strong>CAIVVI</strong> - Centro Integrado de Apoio a Vítima de Violência de Viana</p>
-            <p>Viana, Município de Viana, Luanda, Angola</p>
-            <p>Tel: +244 923 477 158</p>
-            <p>Documento: CE-CAIVVI-2026-001 | Versão: 1.0 | Data: 03/09/2026</p>
-            <p class="mission">POR UMA SOCIEDADE MAIS SEGURA, JUSTA E SEM VIOLÊNCIA</p>
-        </div>
-
+    <div class="top-bar">
+        <div><i class="fa-solid fa-phone-volume"></i> Apoio Imediato / WhatsApp: <a href="https://wa.me/244923477158">+244 923 477 158</a></div>
+        <div>Viana, Luanda - Angola</div>
     </div>
+
+    <header id="header">
+        <nav>
+            <a href="#inicio" class="logo-area">
+                <img src="logo-caivvi.jpg" alt="Logo CAIVVI">
+                <div class="logo-text">
+                    <h1>CAIVVI</h1>
+                    <span>Acolher • Proteger • Apoiar • Resgatar</span>
+                </div>
+            </a>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio" class="nav-item">Início</a></li>
+                <li><a href="#sobre" class="nav-item">Sobre</a></li>
+                <li><a href="#tipos" class="nav-item">Tipologias</a></li>
+                <li><a href="#servicos" class="nav-item">Serviços</a></li>
+                <li><a href="#contactos" class="nav-item">Contactos</a></li>
+                <li><a href="painel-do-gestor.html" class="btn-admin"><i class="fa-solid fa-lock"></i> Painel do Gestor</a></li>
+                <li><a href="#denuncia" class="btn-emergency"><i class="fa-solid fa-shield-halved"></i> Denúncia Segura</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <h2>Centro Integrado de Apoio a Vítima de Violência de Viana</h2>
+        <p class="slogan">Acolher • Proteger • Apoiar • Resgatar</p>
+        <p class="mission">"Por uma sociedade mais segura, justa e sem violência"</p>
+        <div class="hero-buttons">
+            <a href="#denuncia" class="btn btn-primary">Pedir Apoio Urgente</a>
+            <a href="#servicos" class="btn btn-outline">Conhecer Serviços</a>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="section-title">
+            <h2>Sobre o CAIVVI</h2>
+        </div>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p style="margin-bottom: 20px; font-size: 1.05rem;">O <strong>CAIVVI</strong> atua na salvaguarda dos direitos fundamentais da família e dos cidadãos do Município de Viana, prestando suporte multidisciplinar a vítimas de violência com base institucional e rigor legal.</p>
+            <p style="font-size: 1.05rem;"><strong>Enquadramento Legal:</strong> Atuação fundamentada na <strong>Lei 25/11 de 14 de julho</strong> (Lei contra a Violência Doméstica), assegurando proteção integral, encaminhamento jurídico e suporte psicológico especializado.</p>
+            <p style="font-size: 1.05rem; margin-top: 20px; font-style: italic; color: var(--danger); font-weight: 600;">"Por uma sociedade mais segura, justa e sem violência."</p>
+        </div>
+    </section>
+
+    <section id="tipos">
+        <div class="section-title">
+            <h2>Definição e Tipos de Violência</h2>
+        </div>
+        <div class="violence-grid">
+            <div class="violence-item">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <h3>Violência Física</h3>
+                    <p>Qualquer conduta que ofenda a integridade física ou a saúde corporal da vítima.</p>
+                </div>
+            </div>
+            <div class="violence-item">
+                <i class="fa-solid fa-brain"></i>
+                <div>
+                    <h3>Violência Psicológica</h3>
+                    <p>Ações que causem dano emocional, diminuição da autoestima ou controle de comportamentos.</p>
+                </div>
+            </div>
+            <div class="violence-item">
+                <i class="fa-solid fa-comments"></i>
+                <div>
+                    <h3>Violência Verbal</h3>
+                    <p>Insultos, humilhações, ameaças constantes e depreciação pública ou privada.</p>
+                </div>
+            </div>
+            <div class="violence-item">
+                <i class="fa-solid fa-house-chimney-crack"></i>
+                <div>
+                    <h3>Violência Patrimonial</h3>
+                    <p>Retenção, destruição ou subtração de bens, instrumentos de trabalho ou recursos financeiros.</p>
+                </div>
+            </div>
+            <div class="violence-item">
+                <i class="fa-solid fa-user-shield"></i>
+                <div>
+                    <h3>Violência Sexual</h3>
+                    <p>Qualquer constrangimento a presenciar, manter ou participar de relação sexual não desejada.</p>
+                </div>
+            </div>
+            <div class="violence-item">
+                <i class="fa-solid fa-children"></i>
+                <div>
+                    <h3>Abandono Familiar</h3>
+                    <p>Ausência de provisão de sustento, assistência material e moral aos membros vulneráveis do agregado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <div class="section-title">
+            <h2>Nossos Serviços e Apoio</h2>
+        </div>
+        <div class="grid-4">
+            <div class="card">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <h3>Aconselhamento Jurídico</h3>
+                <p>Orientação e salvaguarda legal nos trâmites processuais da Lei 25/11.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <h3>Apoio Psicológico</h3>
+                <p>Atendimento clínico especializado focado no trauma e recuperação emocional.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-handshake"></i>
+                <h3>Mediação Comunitária</h3>
+                <p>Resolução pacífica de conflitos familiares e comunitários com suporte técnico.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-shield-heart"></i>
+                <h3>Proteção e Encaminhamento</h3>
+                <p>Articulação segura com órgãos de segurança e abrigos institucionais.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contactos">
+        <div class="section-title">
+            <h2>Contactos e Denúncia Segura</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Informações Institucionais</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Viana, Município de Viana, Luanda, Angola</p>
+                <p><i class="fa-solid fa-phone"></i> Telefone: +244 923 477 158</p>
+                <p><i class="fa-brands fa-whatsapp"></i> WhatsApp Imediato: <a href="https://wa.me/244923477158" target="_blank" style="color:var(--danger); font-weight:bold;">+244 923 477 158</a></p>
+                <p><i class="fa-solid fa-envelope"></i> suporte@caivvi.org.ao</p>
+                <p style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd; font-size: 0.85rem; color: #777; font-style: italic;">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--accent);"></i>
+                    Todas as denúncias são tratadas com absoluto sigilo.
+                </p>
+            </div>
+            <div id="denuncia">
+                <h3>Formulário de Apoio / Denúncia Confidencial</h3>
+                <form id="safeForm" onsubmit="handleFormSubmit(event)">
+                    <input type="text" placeholder="Seu Nome (Opcional para sigilo)">
+                    <input type="text" placeholder="Contacto Telefónico" required>
+                    <select required>
+                        <option value="">Selecione o Tipo de Ajuda Necessária</option>
+                        <option value="juridico">Aconselhamento Jurídico</option>
+                        <option value="psicologico">Apoio Psicológico</option>
+                        <option value="denuncia">Denúncia de Violência</option>
+                        <option value="outro">Outro Assunto</option>
+                    </select>
+                    <textarea rows="4" placeholder="Descreva a situação ou o apoio necessário..." required minlength="50"></textarea>
+                    <button type="submit" class="btn">Enviar com Confidencialidade</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fa-solid fa-arrow-up"></i>
+    </div>
+
+    <footer>
+        <img src="logo-caivvi.jpg" alt="Logo CAIVVI" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); margin-bottom: 10px; background: white;">
+        <p><strong>Centro Integrado de Apoio a Vítima de Violência de Viana (CAIVVI)</strong></p>
+        <p>Acolher • Proteger • Apoiar • Resgatar</p>
+        <p>© 2026 CAIVVI. Todos os direitos reservados.</p>
+        <p class="footer-mission">POR UMA SOCIEDADE MAIS SEGURA, JUSTA E SEM VIOLÊNCIA</p>
+    </footer>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active-link');
+                if (item.getAttribute('href').includes(current)) {
+                    item.classList.add('active-link');
+                }
+            });
+        });
+
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alert('Mensagem enviada com sucesso! O CAIVVI entrará em contacto sob rigoroso sigilo e segurança.');
+            document.getElementById('safeForm').reset();
+        }
+
+        // Atalho ESC para saída rápida (segurança da vítima)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.location.href = 'https://www.google.com';
+            }
+        });
+    </script>
 
 </body>
 </html>
