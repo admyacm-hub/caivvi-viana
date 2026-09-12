@@ -1,0 +1,62 @@
+{
+  "name": "CAIVVI - Centro Integrado de Apoio a Vítima de Violência de Viana",
+  "short_name": "CAIVVI",
+  "description": "Portal institucional do CAIVVI. Acolher, Proteger, Apoiar, Resgatar. Por uma sociedade mais segura, justa e sem violência.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "lang": "pt-AO",
+  "dir": "ltr",
+  "categories": ["social", "government", "health"],
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo-caivvi.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pedir Apoio Urgente",
+      "short_name": "Apoio",
+      "description": "Acesso rápido ao formulário de denúncia confidencial",
+      "url": "./index.html#denuncia",
+      "icons": [
+        {
+          "src": "favicon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Painel do Gestor",
+      "short_name": "Painel",
+      "description": "Acesso ao painel administrativo interno",
+      "url": "./painel-do-gestor.html",
+      "icons": [
+        {
+          "src": "favicon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
