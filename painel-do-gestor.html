@@ -32,6 +32,7 @@
         body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         h1, h2, h3, h4, .btn, .sidebar-link { font-family: 'Montserrat', sans-serif; }
 
+        /* ===== LOGIN ===== */
         .login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(135deg, var(--primary) 0%, #000 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .login-box { background: var(--white); padding: 40px; border-radius: 12px; max-width: 420px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border-top: 5px solid var(--accent); text-align: center; }
         .login-box img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid var(--accent); background: white; }
@@ -42,9 +43,45 @@
         .login-box button { width: 100%; padding: 13px; background: var(--primary); color: var(--white); border: none; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); letter-spacing: 1px; }
         .login-box button:hover { background: var(--danger); }
         .login-error { color: var(--danger); font-size: 0.85rem; margin-bottom: 15px; min-height: 20px; }
-        .login-hint { margin-top: 20px; font-size: 0.75rem; color: var(--text-light); padding-top: 15px; border-top: 1px dashed var(--border); }
-        .login-hint code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; color: var(--primary); font-size: 0.75rem; }
 
+        /* AVISO DE DEMONSTRAÇÃO */
+        .demo-warning {
+            margin-top: 20px;
+            padding: 14px 16px;
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: #856404;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .demo-warning strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #6d4d00;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .demo-warning code {
+            background: #fff;
+            padding: 3px 7px;
+            border-radius: 3px;
+            color: #c8102e;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            border: 1px solid #ffe08a;
+        }
+        .demo-warning em {
+            display: block;
+            margin-top: 8px;
+            color: #8a6d3b;
+            font-size: 0.72rem;
+            font-style: italic;
+        }
+
+        /* ===== DASHBOARD ===== */
         .dashboard { display: none; }
         .dashboard.active { display: block; }
 
@@ -138,6 +175,7 @@
 </head>
 <body>
 
+    <!-- LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-box">
             <img src="logo-caivvi.jpg" alt="CAIVVI">
@@ -149,13 +187,16 @@
                 <input type="password" id="password" placeholder="Palavra-passe" required autocomplete="current-password">
                 <button type="submit"><i class="fa-solid fa-lock"></i> Entrar</button>
             </form>
-            <p class="login-hint">
-                Acesso restrito • Credenciais iniciais:<br>
-                <code>admin_caivvi</code> / <code>CaivVi2026</code>
-            </p>
+
+            <div class="demo-warning">
+                <strong>⚠️ Modo de Demonstração</strong>
+                Acesso de teste: <code>admin_caivvi</code> / <code>CaivVi2026</code>
+                <em>Em produção, estas credenciais serão removidas e substituídas por autenticação segura com backend.</em>
+            </div>
         </div>
     </div>
 
+    <!-- DASHBOARD -->
     <div class="dashboard" id="dashboard">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -420,217 +461,4 @@
                 switch(periodo) {
                     case 'dia': return diffDias === 0;
                     case 'semana': return diffDias <= 7;
-                    case 'mes': return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-                    case 'trimestre': return diffDias <= 90;
-                    case 'semestre': return diffDias <= 180;
-                    case 'ano': return d.getFullYear() === now.getFullYear();
-                    default: return true;
-                }
-            });
-        }
-
-        let chartCategoria = null;
-        let chartEvolucao = null;
-
-        function updateDashboard() {
-            const periodo = document.getElementById('periodFilter').value;
-            const categoria = document.getElementById('categoryFilter').value;
-
-            let data = filterByPeriod(registos, periodo);
-            if (categoria) data = data.filter(r => r.categoria === categoria);
-
-            document.getElementById('metricTotal').textContent = data.length;
-            document.getElementById('metricPsicologico').textContent = data.filter(r => r.categoria === 'psicologico').length;
-            document.getElementById('metricJuridico').textContent = data.filter(r => r.categoria === 'juridico').length;
-            document.getElementById('metricAtivos').textContent = data.filter(r => r.estado === 'acompanhamento').length;
-            document.getElementById('metricConcluidos').textContent = data.filter(r => r.estado === 'concluido').length;
-
-            const categorias = ['psicologico','juridico','familiar','criancas','alimentos','idosos','comunidade'];
-            const catLabels = ['Psicológico','Jurídico','Familiar','Crianças','Alimentos','Idosos','Comunidade'];
-            const catData = categorias.map(c => data.filter(r => r.categoria === c).length);
-
-            if (chartCategoria) chartCategoria.destroy();
-            chartCategoria = new Chart(document.getElementById('chartCategoria'), {
-                type: 'bar',
-                data: {
-                    labels: catLabels,
-                    datasets: [{
-                        label: 'Atendimentos',
-                        data: catData,
-                        backgroundColor: ['#1a1a1a','#d4af37','#c8102e','#2c2c2c','#b8941f','#a00d24','#666'],
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                }
-            });
-
-            const meses = [];
-            const mesesLabels = [];
-            const now = new Date();
-            for (let i = 5; i >= 0; i--) {
-                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-                meses.push(d);
-                mesesLabels.push(d.toLocaleDateString('pt-PT', { month: 'short' }));
-            }
-
-            const evoData = meses.map(m => {
-                return registos.filter(r => {
-                    const d = new Date(r.data);
-                    return d.getMonth() === m.getMonth() && d.getFullYear() === m.getFullYear();
-                }).length;
-            });
-
-            if (chartEvolucao) chartEvolucao.destroy();
-            chartEvolucao = new Chart(document.getElementById('chartEvolucao'), {
-                type: 'line',
-                data: {
-                    labels: mesesLabels,
-                    datasets: [{
-                        label: 'Atendimentos',
-                        data: evoData,
-                        borderColor: '#c8102e',
-                        backgroundColor: 'rgba(200, 16, 46, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#d4af37',
-                        pointBorderColor: '#1a1a1a',
-                        pointRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                }
-            });
-
-            const recentes = [...data].sort((a,b) => new Date(b.data) - new Date(a.data)).slice(0, 10);
-            renderTable(recentes, 'recentTableBody');
-        }
-
-        function renderRegistos() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const status = document.getElementById('statusFilter').value;
-
-            let data = [...registos];
-            if (search) data = data.filter(r =>
-                (r.nome || '').toLowerCase().includes(search) ||
-                (r.contacto || '').toLowerCase().includes(search)
-            );
-            if (status) data = data.filter(r => r.estado === status);
-
-            data.sort((a,b) => new Date(b.data) - new Date(a.data));
-            renderTable(data, 'allTableBody', true);
-        }
-
-        function renderTable(data, tbodyId, withActions = false) {
-            const tbody = document.getElementById(tbodyId);
-            if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 30px; color:#999;">Nenhum registo encontrado.</td></tr>';
-                return;
-            }
-
-            const catLabels = {
-                psicologico: 'Psicológico', juridico: 'Jurídico', familiar: 'Familiar',
-                criancas: 'Crianças', alimentos: 'Alimentos', idosos: 'Idosos', comunidade: 'Comunidade'
-            };
-            const estLabels = {
-                acompanhamento: { label: 'Em Acompanhamento', cls: 'badge-warning' },
-                encaminhado: { label: 'Encaminhado', cls: 'badge-info' },
-                concluido: { label: 'Concluído', cls: 'badge-success' }
-            };
-
-            tbody.innerHTML = data.map(r => {
-                const est = estLabels[r.estado] || { label: r.estado, cls: 'badge-info' };
-                const acoes = withActions
-                    ? `<td>
-                        <button class="action-btn" onclick="changeStatus(${r.id})" title="Mudar Estado"><i class="fa-solid fa-arrows-rotate"></i></button>
-                        <button class="action-btn delete" onclick="deleteRegisto(${r.id})" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-                       </td>`
-                    : '';
-                return `<tr>
-                    <td>${formatDate(r.data)}</td>
-                    <td>${r.nome || '<em>Anónimo</em>'}</td>
-                    <td>${r.contacto}</td>
-                    <td>${catLabels[r.categoria] || r.categoria}</td>
-                    <td><span class="badge ${est.cls}">${est.label}</span></td>
-                    ${acoes}
-                </tr>`;
-            }).join('');
-        }
-
-        function formatDate(iso) {
-            const d = new Date(iso);
-            return d.toLocaleDateString('pt-PT');
-        }
-
-        function changeStatus(id) {
-            const r = registos.find(x => x.id === id);
-            if (!r) return;
-            const estados = ['acompanhamento', 'encaminhado', 'concluido'];
-            const next = estados[(estados.indexOf(r.estado) + 1) % estados.length];
-            r.estado = next;
-            saveRegistos();
-            renderRegistos();
-            updateDashboard();
-        }
-
-        function deleteRegisto(id) {
-            if (!confirm('Eliminar este registo permanentemente?')) return;
-            registos = registos.filter(x => x.id !== id);
-            saveRegistos();
-            renderRegistos();
-            updateDashboard();
-        }
-
-        function handleNewRecord(e) {
-            e.preventDefault();
-            const novo = {
-                id: Date.now(),
-                data: new Date().toISOString().split('T')[0],
-                nome: document.getElementById('novoNome').value.trim() || 'Anónimo',
-                contacto: document.getElementById('novoContacto').value.trim(),
-                categoria: document.getElementById('novoCategoria').value,
-                estado: document.getElementById('novoEstado').value,
-                descricao: document.getElementById('novoDescricao').value.trim()
-            };
-            registos.push(novo);
-            saveRegistos();
-            alert('✅ Registo guardado com sucesso!');
-            e.target.reset();
-            showSection('registos-section', document.querySelectorAll('.sidebar-menu a')[1]);
-        }
-
-        function exportCSV() {
-            const headers = ['Data', 'Nome', 'Contacto', 'Categoria', 'Estado', 'Descrição'];
-            const rows = registos.map(r => [
-                r.data, r.nome || '', r.contacto, r.categoria, r.estado, (r.descricao || '').replace(/"/g, '""')
-            ]);
-            const csv = [headers, ...rows].map(row => row.map(c => `"${c}"`).join(',')).join('\n');
-            downloadFile(csv, 'caivvi-registos.csv', 'text/csv;charset=utf-8;');
-        }
-
-        function exportJSON() {
-            const json = JSON.stringify(registos, null, 2);
-            downloadFile(json, 'caivvi-registos.json', 'application/json');
-        }
-
-        function downloadFile(content, filename, type) {
-            const blob = new Blob(['\ufeff' + content], { type });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-    </script>
-
-</body>
-</html>
+                    case 'mes': return d.getMonth() === now.get
