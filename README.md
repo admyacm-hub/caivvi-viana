@@ -1,4 +1,4 @@
-# 🏛️ CAIVVI — Centro Integrado de Apoio a Vítima de Violência de Viana
+# 🏛️ CAIVVI — Centro de Apoio Integrado a Vítima de Violência de Viana
 
 > **Acolher • Proteger • Apoiar • Resgatar**
 > _"Por uma sociedade mais segura, justa e sem violência"_
@@ -26,7 +26,7 @@ Portal web institucional do **CAIVVI**, com portal público para a comunidade e 
 
 ## 🎯 Sobre o Projeto
 
-O **CAIVVI** (Centro Integrado de Apoio a Vítima de Violência de Viana) é uma instituição dedicada ao apoio, proteção e orientação de vítimas de violência no Município de Viana, Luanda, Angola.
+O **CAIVVI** (Centro de Apoio Integrado a Vítima de Violência de Viana) é uma instituição dedicada ao apoio, proteção e orientação de vítimas de violência no Município de Viana, Luanda, Angola.
 
 Este projeto consiste em:
 
